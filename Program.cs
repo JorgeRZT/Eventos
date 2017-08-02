@@ -20,6 +20,8 @@ namespace Evento
 
     public class Caja
     {
+        int cantidadRiesgo = 200;
+        
         public int Id { get; set; }
         public decimal sumatoria = 0;
         List<Ticket> tickets = new List<Ticket>();
@@ -31,14 +33,20 @@ namespace Evento
             
             sumatoria += ticket.valor;
             tickets.Add(ticket);
-
-            if (sumatoria > 200)
-            {
-                CajaEventArgs args = new CajaEventArgs();
-                args.id = Id;
-                args.valor = sumatoria;
-                OnMaxMoney(args);
-            }
+            
+            //Simplificación de código usando funciones con 1 sola finalidad 
+            if (CajaEnRiesgo()) crearEvento();
+        }
+        
+        public void crearEvento(){
+            CajaEventArgs args = new CajaEventArgs();
+            args.id = Id;
+            args.valor = sumatoria;
+            OnMaxMoney(args);   
+        }    
+        
+        public bool CajaEnRiesgo(){
+            return sumatoria > cantidadRiesgo;
         }
 
         protected virtual void OnMaxMoney(CajaEventArgs evento)
