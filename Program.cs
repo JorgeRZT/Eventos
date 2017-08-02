@@ -26,6 +26,8 @@ namespace Evento
 
         public void addTicket(Ticket ticket)
         {
+            if(ticket == null) throw new System.ArgumentException("El ticket no puede ser nulo", "ticket");
+            
             sumatoria += ticket.valor;
             tickets.Add(ticket);
 
